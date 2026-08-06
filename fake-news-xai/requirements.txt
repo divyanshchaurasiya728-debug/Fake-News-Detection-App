@@ -1,0 +1,8 @@
+scikit-learn>=1.8.0
+pandas>=2.2.0
+numpy>=1.26.0
+streamlit>=1.38.0
+lime==0.2.0.1
+matplotlib>=3.9.0
+joblib>=1.4.2
+nltk>=3.9.1
