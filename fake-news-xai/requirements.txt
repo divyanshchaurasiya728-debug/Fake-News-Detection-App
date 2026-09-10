@@ -6,3 +6,8 @@ lime==0.2.0.1
 matplotlib>=3.9.0
 joblib>=1.4.2
 nltk>=3.9.1
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+fpdf2>=2.7.9
+SpeechRecognition>=3.10.0
+pydub>=0.25.1
