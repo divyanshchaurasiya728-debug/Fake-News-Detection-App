@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TruthLens | Settings</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <aside class="sidebar">
+
+            <div class="brand sidebar-brand">
+
+                <div class="logo">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+
+                <div>
+                    <h1>Truth<span>Lens</span></h1>
+                    <p>Detect • Verify • Stay Informed</p>
+                </div>
+
+            </div>
+
+
+            <nav class="sidebar-menu">
+
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fa-solid fa-house"></i>
+                    Dashboard
+                </a>
+
+                <a href="history.html" class="nav-link">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    History
+                </a>
+
+                <a href="about.html" class="nav-link">
+                    <i class="fa-solid fa-circle-info"></i>
+                    About
+                </a>
+
+                <a href="settings.html" class="nav-link active">
+                    <i class="fa-solid fa-gear"></i>
+                    Settings
+                </a>
+
+            </nav>
+
+        </aside>
+
+
+        <main class="main-content">
+
+            <header class="topbar">
+                <h2>Settings</h2>
+            </header>
+
+
+            <section class="page-content settings-page">
+
+
+                <!-- PROFILE -->
+                <div class="settings-card">
+
+                    <h2>
+                        <i class="fa-solid fa-user"></i>
+                        Profile
+                    </h2>
+
+                    <div class="profile-settings">
+
+                        <div class="large-avatar">
+                            M
+                        </div>
+
+                        <div>
+                            <h3>Mansi Singh</h3>
+                            <p>mansi@example.com</p>
+
+                            <button class="secondary-btn">
+                                Change Profile Photo
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- APPEARANCE -->
+                <div class="settings-card">
+
+                    <h2>
+                        <i class="fa-solid fa-palette"></i>
+                        Appearance
+                    </h2>
+
+
+                    <div class="setting-row">
+
+                        <div>
+                            <h3>Dark Mode</h3>
+                            <p>Use dark theme across the application.</p>
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                id="darkModeToggle"
+                                checked
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NOTIFICATIONS -->
+                <div class="settings-card">
+
+                    <h2>
+                        <i class="fa-solid fa-bell"></i>
+                        Notifications
+                    </h2>
+
+
+                    <div class="setting-row">
+
+                        <div>
+                            <h3>Analysis Updates</h3>
+
+                            <p>
+                                Get notified when your analysis is complete.
+                            </p>
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox" checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+                            <h3>Weekly Report</h3>
+
+                            <p>
+                                Receive a summary of your weekly checks.
+                            </p>
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox">
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SECURITY -->
+                <div class="settings-card">
+
+                    <h2>
+                        <i class="fa-solid fa-lock"></i>
+                        Security
+                    </h2>
+
+                    <button class="secondary-btn">
+                        Change Password
+                    </button>
+
+                </div>
+
+
+                <!-- SAVE -->
+                <button class="save-settings-btn" id="saveSettings">
+
+                    <i class="fa-solid fa-check"></i>
+
+                    Save Changes
+
+                </button>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>

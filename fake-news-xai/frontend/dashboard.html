@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TruthLens | Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="brand sidebar-brand">
+
+                <div class="logo">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+
+                <div>
+                    <h1>Truth<span>Lens</span></h1>
+                    <p>Detect • Verify • Stay Informed</p>
+                </div>
+
+            </div>
+
+
+            <nav class="sidebar-menu">
+
+                <a href="dashboard.html" class="nav-link active">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="history.html" class="nav-link">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>History</span>
+                </a>
+
+                <a href="about.html" class="nav-link">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>About</span>
+                </a>
+
+                <a href="settings.html" class="nav-link">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+
+                <i class="fa-solid fa-sparkles"></i>
+
+                <p>
+                    Better information.<br>
+                    A smarter you.
+                </p>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+
+            <!-- TOP BAR -->
+            <header class="topbar">
+
+                <button class="theme-btn">
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+
+
+                <div class="user-profile">
+
+                    <div class="avatar">
+                        M
+                    </div>
+
+                    <span>Mansi Singh</span>
+
+                    <i class="fa-solid fa-chevron-down"></i>
+
+                </div>
+
+            </header>
+
+
+            <div class="dashboard-layout">
+
+
+                <!-- LEFT CONTENT -->
+                <section class="dashboard-left">
+
+
+                    <!-- WELCOME -->
+                    <div class="welcome-card">
+
+                        <div class="welcome-text">
+
+                            <h2>
+                                Welcome, <span>Mansi!</span>
+                            </h2>
+
+                            <h3>
+                                Check if what you see, hear, or read is real.
+                            </h3>
+
+                            <p>
+                                Our AI analyzes content for credibility,
+                                sources, and manipulation signs so you can
+                                stay informed.
+                            </p>
+
+                        </div>
+
+
+                        <div class="welcome-icon">
+                            <i class="fa-solid fa-file-shield"></i>
+                        </div>
+
+                    </div>
+
+
+                    <!-- CHECK FAKE NEWS -->
+                    <div class="check-section">
+
+                        <div class="section-heading">
+
+                            <div>
+                                <h2>
+                                    <i class="fa-solid fa-crosshairs"></i>
+                                    Check for Fake News
+                                </h2>
+
+                                <p>Choose a type of content to analyze:</p>
+                            </div>
+
+                        </div>
+
+
+                        <!-- CARDS -->
+                        <div class="check-cards">
+
+
+                            <!-- AUDIO -->
+                            <div class="check-card audio-card">
+
+                                <div class="check-icon">
+                                    <i class="fa-solid fa-microphone"></i>
+                                </div>
+
+                                <h3>Audio</h3>
+
+                                <p>
+                                    Upload or record an audio clip.
+                                </p>
+
+                                <input
+                                    type="file"
+                                    id="audioInput"
+                                    accept="audio/*"
+                                    hidden
+                                >
+
+                                <button
+                                    class="check-btn"
+                                    onclick="selectFile('audioInput')"
+                                >
+                                    Check Audio
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+
+                            </div>
+
+
+                            <!-- TEXT -->
+                            <div class="check-card text-card">
+
+                                <div class="check-icon">
+                                    <i class="fa-solid fa-file-lines"></i>
+                                </div>
+
+                                <h3>Text</h3>
+
+                                <p>
+                                    Paste or type any text, article, or news.
+                                </p>
+
+                                <button
+                                    class="check-btn"
+                                    id="openTextModal"
+                                >
+                                    Check Text
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+
+                            </div>
+
+
+                            <!-- VIDEO -->
+                            <div class="check-card video-card">
+
+                                <div class="check-icon">
+                                    <i class="fa-solid fa-play"></i>
+                                </div>
+
+                                <h3>Video</h3>
+
+                                <p>
+                                    Upload a video file for AI analysis.
+                                </p>
+
+                                <input
+                                    type="file"
+                                    id="videoInput"
+                                    accept="video/*"
+                                    hidden
+                                >
+
+                                <button
+                                    class="check-btn"
+                                    onclick="selectFile('videoInput')"
+                                >
+                                    Check Video
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- AI CHECKS -->
+                        <div class="ai-checks">
+
+                            <div class="ai-check-title">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <span>Our AI checks for:</span>
+                            </div>
+
+                            <div class="check-list">
+
+                                <span>
+                                    <i class="fa-solid fa-check"></i>
+                                    Source credibility
+                                </span>
+
+                                <span>
+                                    <i class="fa-solid fa-check"></i>
+                                    Language manipulation
+                                </span>
+
+                                <span>
+                                    <i class="fa-solid fa-check"></i>
+                                    Visual/audio inconsistencies
+                                </span>
+
+                                <span>
+                                    <i class="fa-solid fa-check"></i>
+                                    Fact verification
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RECENT CHECKS -->
+                    <div class="recent-section">
+
+                        <div class="recent-header">
+
+                            <h2>
+                                <i class="fa-solid fa-clock"></i>
+                                Recent Checks
+                            </h2>
+
+                            <a href="history.html">
+                                View All
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+
+                        </div>
+
+
+                        <div id="recentChecks">
+
+                            <div class="recent-item">
+
+                                <div class="recent-icon">
+                                    <i class="fa-solid fa-file-lines"></i>
+                                </div>
+
+                                <p>
+                                    "Viral claim about new government scheme"
+                                </p>
+
+                                <span class="type-badge">Text</span>
+
+                                <span class="time">2 hours ago</span>
+
+                                <span class="status fake">
+                                    Likely Fake
+                                </span>
+
+                            </div>
+
+
+                            <div class="recent-item">
+
+                                <div class="recent-icon video">
+                                    <i class="fa-solid fa-play"></i>
+                                </div>
+
+                                <p>
+                                    "SpaceX launches new rocket"
+                                </p>
+
+                                <span class="type-badge">Video</span>
+
+                                <span class="time">5 hours ago</span>
+
+                                <span class="status real">
+                                    Likely Real
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- RIGHT ANALYSIS REPORT -->
+                <aside class="report-panel">
+
+                    <h2>
+                        <i class="fa-solid fa-file-lines"></i>
+                        Analysis Report
+                    </h2>
+
+
+                    <!-- SELECTED CONTENT -->
+                    <div class="report-content">
+
+                        <div class="report-image">
+                            <i class="fa-solid fa-newspaper"></i>
+                        </div>
+
+                        <div>
+                            <h3 id="reportTitle">
+                                Viral claim about new government scheme
+                            </h3>
+
+                            <span class="type-badge">Text</span>
+
+                            <small id="reportDate">
+                                September 15, 2026
+                            </small>
+                        </div>
+
+                    </div>
+
+
+                    <!-- RESULT -->
+                    <div class="result-card">
+
+                        <div class="result-top">
+
+                            <div class="danger-icon">
+                                <i class="fa-solid fa-exclamation"></i>
+                            </div>
+
+                            <h2 id="resultStatus">
+                                Likely Fake
+                            </h2>
+
+                            <div class="percentage">
+                                <strong id="fakePercentage">78%</strong>
+                                <span>Fake Probability</span>
+                            </div>
+
+                        </div>
+
+                        <p id="resultDescription">
+                            This content shows several red flags that
+                            suggest it may be misleading or fabricated.
+                        </p>
+
+                    </div>
+
+
+                    <!-- KEY FINDINGS -->
+                    <div class="findings">
+
+                        <h3>
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            Key Findings
+                        </h3>
+
+
+                        <div class="finding-item">
+
+                            <i class="fa-solid fa-exclamation"></i>
+
+                            <div>
+                                <h4>Unverified Source</h4>
+
+                                <p>
+                                    This claim is not supported by a
+                                    credible news outlet.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="finding-item">
+
+                            <i class="fa-solid fa-exclamation"></i>
+
+                            <div>
+                                <h4>Manipulated Language</h4>
+
+                                <p>
+                                    Emotional and sensational language
+                                    creates urgency.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="finding-item warning">
+
+                            <i class="fa-solid fa-exclamation"></i>
+
+                            <div>
+                                <h4>No Supporting Evidence</h4>
+
+                                <p>
+                                    No reliable links or expert references
+                                    were found.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="finding-item success">
+
+                            <i class="fa-solid fa-check"></i>
+
+                            <div>
+                                <h4>Some Facts Match</h4>
+
+                                <p>
+                                    A few details match past events.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SUMMARY -->
+                    <div class="summary">
+
+                        <h3>
+                            <i class="fa-solid fa-clipboard"></i>
+                            Summary
+                        </h3>
+
+                        <p id="summaryText">
+                            The content contains multiple signs of
+                            misinformation, including an unverified source,
+                            emotional language, and lack of evidence.
+                            It should be fact-checked before sharing.
+                        </p>
+
+                    </div>
+
+
+                    <button class="check-another-btn" id="checkAnother">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        Check Another
+                    </button>
+
+                </aside>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- TEXT MODAL -->
+    <div class="modal" id="textModal">
+
+        <div class="modal-box">
+
+            <button class="close-modal" id="closeModal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h2>Analyze Text</h2>
+
+            <p>
+                Paste the news, article, headline, or claim below.
+            </p>
+
+            <textarea
+                id="newsText"
+                placeholder="Paste your news or claim here..."
+            ></textarea>
+
+            <button class="analyze-btn" id="analyzeText">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Analyze with AI
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>

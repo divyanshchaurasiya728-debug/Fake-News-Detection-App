@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TruthLens | History</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <aside class="sidebar">
+
+            <div class="brand sidebar-brand">
+                <div class="logo">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+
+                <div>
+                    <h1>Truth<span>Lens</span></h1>
+                    <p>Detect • Verify • Stay Informed</p>
+                </div>
+            </div>
+
+
+            <nav class="sidebar-menu">
+
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fa-solid fa-house"></i>
+                    Dashboard
+                </a>
+
+                <a href="history.html" class="nav-link active">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    History
+                </a>
+
+                <a href="about.html" class="nav-link">
+                    <i class="fa-solid fa-circle-info"></i>
+                    About
+                </a>
+
+                <a href="settings.html" class="nav-link">
+                    <i class="fa-solid fa-gear"></i>
+                    Settings
+                </a>
+
+            </nav>
+
+        </aside>
+
+
+        <main class="main-content">
+
+            <header class="topbar">
+
+                <h2>Analysis History</h2>
+
+                <div class="user-profile">
+                    <div class="avatar">M</div>
+                    <span>Mansi Singh</span>
+                </div>
+
+            </header>
+
+
+            <section class="page-content">
+
+                <div class="page-title">
+
+                    <div>
+                        <h1>Your Recent Checks</h1>
+
+                        <p>
+                            View all your previously analyzed content.
+                        </p>
+                    </div>
+
+                    <button class="clear-history-btn" id="clearHistory">
+                        <i class="fa-solid fa-trash"></i>
+                        Clear History
+                    </button>
+
+                </div>
+
+
+                <!-- FILTERS -->
+                <div class="history-filters">
+
+                    <button class="filter-btn active" data-filter="all">
+                        All
+                    </button>
+
+                    <button class="filter-btn" data-filter="text">
+                        Text
+                    </button>
+
+                    <button class="filter-btn" data-filter="audio">
+                        Audio
+                    </button>
+
+                    <button class="filter-btn" data-filter="video">
+                        Video
+                    </button>
+
+                </div>
+
+
+                <!-- HISTORY LIST -->
+                <div class="history-list" id="historyList">
+
+                    <div class="history-card" data-type="text">
+
+                        <div class="history-type text-type">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+
+                        <div class="history-info">
+                            <h3>
+                                Viral claim about new government scheme
+                            </h3>
+
+                            <p>Text Analysis • Today, 2:14 PM</p>
+                        </div>
+
+                        <div class="history-score fake-score">
+                            78%
+                            <span>Likely Fake</span>
+                        </div>
+
+                        <button class="view-report-btn">
+                            View Report
+                        </button>
+
+                    </div>
+
+
+                    <div class="history-card" data-type="video">
+
+                        <div class="history-type video-type">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+
+                        <div class="history-info">
+                            <h3>
+                                SpaceX launches new rocket
+                            </h3>
+
+                            <p>Video Analysis • Today, 9:00 AM</p>
+                        </div>
+
+                        <div class="history-score real-score">
+                            18%
+                            <span>Likely Real</span>
+                        </div>
+
+                        <button class="view-report-btn">
+                            View Report
+                        </button>
+
+                    </div>
+
+
+                    <div class="history-card" data-type="audio">
+
+                        <div class="history-type audio-type">
+                            <i class="fa-solid fa-microphone"></i>
+                        </div>
+
+                        <div class="history-info">
+                            <h3>
+                                Political speech recording
+                            </h3>
+
+                            <p>Audio Analysis • Yesterday</p>
+                        </div>
+
+                        <div class="history-score uncertain-score">
+                            52%
+                            <span>Uncertain</span>
+                        </div>
+
+                        <button class="view-report-btn">
+                            View Report
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
