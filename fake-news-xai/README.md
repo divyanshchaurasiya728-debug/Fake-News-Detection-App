@@ -1,122 +1,194 @@
-# Explainable AI for Fake News Detection
+# Explainable AI for Fake News Detection (TruthLens)
 
-A fake news classifier (TF-IDF + Logistic Regression) with a Streamlit app
-that predicts FAKE vs REAL from **text, a URL, an audio clip, or a video file**,
-and explains *why* each prediction was made using LIME. Results can be
-downloaded as a PDF report.
+A fake news detector that predicts whether a piece of news looks **FAKE** or **REAL** and shows **which words influenced the decision**. It uses a scikit-learn classifier (TF-IDF + Logistic Regression) with LIME for word-level explanations, a Flask backend, and a custom web interface called **TruthLens**. It accepts pasted text, article links, audio clips and video files.
+
+## Features
+
+- **Classification** with a confidence score and a FAKE / REAL / Uncertain status
+- **Explainability** with LIME, which scores each word by how much it pushed the prediction
+- **Four input types**: text, article URL, audio and video (speech is transcribed to text first)
+- **TruthLens web app** with login, dashboard, analysis report, history, about and settings pages
+- **PDF reports** of an analysis
+- **Streamlit version** of the app, with LIME word highlighting and a bar chart
+
+## Two interfaces
+
+| Interface | Start with | Opens at | What it shows |
+|---|---|---|---|
+| TruthLens (Flask) | `python server.py` | http://localhost:5000 | Fake probability, status, key findings, saved history |
+| Streamlit | `streamlit run app.py` | http://localhost:8501 | Verdict, LIME word highlighting, word bar chart, PDF download |
+
+Both use the same trained model in `models/`.
 
 ## Project structure
 
 ```
-fake-news-xai/
-├── requirements.txt
-├── packages.txt            # system packages for deployment (ffmpeg)
-├── .streamlit/
-│   └── config.toml         # app theme
-├── preprocess.py           # shared text-cleaning logic
-├── train_model.py          # trains + saves the model
-├── tune_model.py           # hyperparameter-tuned training (optional, slower)
-├── url_utils.py            # extracts article text from a URL
-├── media_utils.py          # transcribes audio/video to text
-├── report_utils.py         # generates the downloadable PDF report
-├── app.py                  # Streamlit app (LIME-based, main app)
-├── data/
-│   └── make_sample_data.py   # generates a tiny synthetic dataset for testing
-└── models/                 # trained model + metrics get saved here
+Fake-News-Detection-App/
+└── fake-news-xai/
+    ├── server.py            # Flask backend: serves TruthLens and the JSON API
+    ├── app.py               # Streamlit app
+    ├── preprocess.py        # text cleaning shared by training and the apps
+    ├── train_model.py       # trains and saves the model
+    ├── tune_model.py        # optional grid-search tuning (slower, usually better)
+    ├── url_utils.py         # extracts article text from a URL
+    ├── media_utils.py       # transcribes audio and video to text
+    ├── report_utils.py      # builds the PDF report
+    ├── requirements.txt
+    ├── packages.txt         # system packages for deployment (ffmpeg)
+    ├── .streamlit/
+    │   └── config.toml      # Streamlit theme
+    ├── frontend/            # TruthLens pages
+    │   ├── index.html       # login
+    │   ├── dashboard.html
+    │   ├── history.html
+    │   ├── about.html
+    │   ├── settings.html
+    │   ├── style.css
+    │   └── script.js
+    ├── data/                # datasets (not committed)
+    └── models/              # trained model and metrics
 ```
 
-## 1. Setup
+## Setup
 
-**Install ffmpeg first** (required for the Audio/Video input tabs):
-- Windows: `winget install ffmpeg` (or see manual install instructions if that fails)
-- Mac: `brew install ffmpeg`
-- Linux: `sudo apt install ffmpeg`
+**Requirements:** Python 3.11 or newer (works on 3.14 with scikit-learn 1.8 or newer) and **ffmpeg** for audio and video.
 
-Verify it worked:
+1. Clone and enter the project:
+
+   ```bash
+   git clone https://github.com/divyanshchaurasiya728-debug/Fake-News-Detection-App.git
+   cd Fake-News-Detection-App/fake-news-xai
+   ```
+
+2. Create and activate a virtual environment:
+
+   ```bash
+   python -m venv venv
+   source venv/Scripts/activate     # Windows Git Bash
+   venv\Scripts\activate            # Windows Command Prompt
+   source venv/bin/activate         # Mac / Linux
+   ```
+
+3. Install the Python packages:
+
+   ```bash
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
+
+4. Install ffmpeg (needed only for the audio and video inputs):
+
+   ```bash
+   winget install ffmpeg            # Windows
+   brew install ffmpeg              # Mac
+   sudo apt install ffmpeg          # Linux
+   ```
+
+   Close and reopen your terminal (and VS Code, if you use it), then check it with `ffmpeg -version`.
+
+## Train the model
+
+The trained model is not part of the source code, so train it before running the apps.
+
+1. Download the **Fake and Real News Dataset** from Kaggle. It contains `Fake.csv` and `True.csv`. Put both files in `data/`.
+2. Train:
+
+   ```bash
+   python train_model.py --fake data/Fake.csv --real data/True.csv
+   ```
+
+3. Optional, for better accuracy (takes noticeably longer):
+
+   ```bash
+   python tune_model.py --fake data/Fake.csv --real data/True.csv
+   ```
+
+Training saves `models/fake_news_pipeline.joblib` and `models/metrics.json` (accuracy, precision, recall, F1).
+
+**Using a different dataset:**
+
 ```bash
-ffmpeg -version
+python train_model.py --data data/mydata.csv --text_col text --label_col label
 ```
 
-Then set up the Python environment:
-```bash
-python -m venv venv
-source venv/Scripts/activate      # Windows Git Bash; use venv\Scripts\activate for cmd/PowerShell
-pip install -r requirements.txt
-```
+The label column must contain the words `FAKE` and `REAL`. TruthLens reads the model's `FAKE` probability by name, so numeric labels such as 0 and 1 must be converted first.
 
-## 2. Get a dataset and train the model
+**Quick test without a real dataset:**
 
-**Quick test (synthetic, 20 rows, just to confirm the code runs):**
 ```bash
 python data/make_sample_data.py
 python train_model.py --data data/sample_news.csv --text_col text --label_col label
 ```
 
-**Real dataset (recommended):**
-Download the Kaggle "Fake and Real News Dataset"
-(search "Fake and Real News Dataset" by Clément Bisaillon on Kaggle),
-which gives you `Fake.csv` and `True.csv`. Put both in `data/`, then:
+This tiny 20-row dataset only checks that the code runs. Its predictions are not meaningful.
+
+## Run
+
+**TruthLens:**
+
 ```bash
-python train_model.py --fake data/Fake.csv --real data/True.csv
+python server.py
 ```
 
-**For better accuracy**, use the hyperparameter-tuned version instead (slower, searches multiple settings):
-```bash
-python tune_model.py --fake data/Fake.csv --real data/True.csv
-```
+Open http://localhost:5000. Keep the terminal open while you use the app.
 
-## 3. Run the app
+**Streamlit:**
 
 ```bash
 streamlit run app.py
 ```
-(or `python -m streamlit run app.py` if the `streamlit` command isn't found on your PATH)
 
-Opens at `http://localhost:8501`. The app has four input tabs:
+If the `streamlit` command is not found, use `python -m streamlit run app.py`.
 
-### 📝 Text
-Paste a headline or article directly, or click one of the example chips to auto-fill the box.
+## API
 
-### 🔗 URL
-Paste a link to a news article. The app fetches the page and extracts the headline + body text automatically. Works best on standard article layouts — heavily JavaScript-rendered or paywalled sites may not extract cleanly.
+The TruthLens pages call these endpoints on the Flask server.
 
-### 🎵 Audio
-Upload an audio clip (`.wav`, `.mp3`, `.m4a`, `.ogg`, `.flac`). The app transcribes it to text using free speech recognition, then runs the transcript through the classifier. Requires an internet connection (the transcription service is cloud-based) and a working ffmpeg install.
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/api/metrics` | Model accuracy, F1 and dataset sizes |
+| POST | `/api/analyze` | `{"text": "..."}` returns label, confidence, class probabilities and LIME word weights |
+| POST | `/api/transcribe` | Upload an audio or video file, returns the transcript |
+| POST | `/api/fetch-url` | `{"url": "..."}` returns the article title and text |
+| POST | `/api/report` | Analysis result in, PDF report out |
 
-### 🎬 Video
-Upload a video file (`.mp4`, `.mov`, `.mkv`, `.avi`, `.webm`). The app extracts the audio track, transcribes it, and classifies the transcript — same underlying process as the Audio tab.
+## How it works
 
-After any input method, hit **Analyze** to see:
-- The predicted label (FAKE/REAL) with a confidence score
-- The text with words highlighted green (pushes toward REAL) or red (pushes toward FAKE)
-- A bar chart of the top contributing words
-- A **Download PDF report** button with the full result summary
+1. **Input:** pasted text, or text extracted from a link, or a transcript of audio or video.
+2. **Cleaning:** lowercase, remove URLs, HTML and punctuation, drop stopwords.
+3. **Classification:** TF-IDF features (single words and word pairs) feed a Logistic Regression classifier.
+4. **Explanation:** LIME removes random words from the text, watches how the prediction changes, and fits a small linear model to estimate each word's influence.
+5. **Output:** verdict, confidence, word weights and an optional PDF report.
 
-## 4. Deploying to Streamlit Community Cloud
+Speech is transcribed with the free Google Web Speech API through the `SpeechRecognition` library, after ffmpeg converts the file. This needs an internet connection.
 
-1. Push your repo to GitHub, making sure these are committed (not excluded by `.gitignore`):
-   - `models/fake_news_pipeline.joblib` (the trained model)
-   - `.streamlit/config.toml` (theme)
-   - `packages.txt` (installs ffmpeg on the server — required for Audio/Video tabs to work when deployed)
-2. Go to **share.streamlit.io**, sign in with GitHub, click **"Create app"**.
-3. Select your repo, branch `main`, main file path `app.py`, then **Deploy**.
+## Deployment
 
-## 5. Ideas to extend this further
+- **Streamlit version:** deploy on Streamlit Community Cloud. Commit `models/fake_news_pipeline.joblib`, `.streamlit/config.toml`, `requirements.txt` and `packages.txt`. Without the model file the app shows "No trained model found".
+- **TruthLens (Flask) version:** Streamlit Cloud cannot host it. Use a Python host such as Render or PythonAnywhere, commit the model file, and run the app with a production server such as gunicorn instead of `python server.py`.
 
-- Swap Logistic Regression for a BERT model, and use `transformers-interpret`
-  or attention visualization (`bertviz`) instead of LIME, and compare
-  explanation quality between the two.
-- Add SHAP alongside LIME and compare which words each method flags.
-- Add a "faithfulness" evaluation: remove the top-K words LIME flagged and
-  check how much the prediction confidence actually drops.
-- Batch/CSV upload mode to analyze many articles at once.
+## Troubleshooting
 
-## Notes
+| Problem | Fix |
+|---|---|
+| `streamlit: command not found` | Use `python -m streamlit run app.py` and make sure the virtual environment is active |
+| scikit-learn fails to build (Cython or Meson error) | Run `python -m pip install --upgrade pip`, then install `scikit-learn>=1.8` |
+| `Not Found` at http://localhost:5000 | The HTML, CSS and JS files must be inside the `frontend/` folder, with `setting.html` named `settings.html` |
+| `ffmpeg` not found in the VS Code terminal | Fully close and reopen VS Code after installing ffmpeg |
+| "No trained model found" | Run `train_model.py` first |
+| Audio or video transcription fails | Check your internet connection, ffmpeg, and that the file contains clear speech |
+| `git push` rejected (non-fast-forward) | Run `git pull origin main`, then push again |
 
-- This is a demo/student project, not a fact-checking tool. It detects
-  *writing-style patterns* correlated with fake news in the training data —
-  it does not verify facts.
-- Accuracy depends heavily on your dataset; the included sample dataset
-  is only 20 rows and exists purely to confirm the code runs end-to-end.
-- Audio/video transcription accuracy depends on recording clarity and
-  requires internet access to the speech recognition service.
+## Current limitations
+
+- The model learns writing style, not facts, so a well-written false story can pass. It is not a fact-checking tool.
+- Accuracy depends on the training dataset and the period it covers.
+- TruthLens login is a demo (no real accounts), and history is stored in the browser's localStorage.
+- The TruthLens report page does not show word-level highlights yet. The `/api/analyze` endpoint already returns them, and the Streamlit app displays them.
+
+## Ideas for future work
+
+- Compare against a BERT model with SHAP explanations
+- Cross-check claims against fact-checking databases
+- Real user accounts and server-side history
+- More languages and online deployment
